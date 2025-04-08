@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 // Public routes
@@ -24,7 +26,7 @@ Route::middleware(['auth'])->group(function () {
             return redirect()->route('customer.dashboard');
         }
     })->name('dashboard');
-    
+
     // Customer routes
     Route::middleware(['customer'])->prefix('customer')->group(function () {
         Route::get('/dashboard', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
@@ -32,6 +34,12 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('bookings', BookingController::class);
     });
 });
+
+// Register route
+Route::get('/register', [RegisterController::class, 'register'])->name('registration');
+
+// Login route
+Route::get('/login', [LoginController::class, 'login'])->name('login');
 
 // Include admin and owner route files
 require __DIR__.'/admin.php';

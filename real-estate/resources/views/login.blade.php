@@ -1,0 +1,35 @@
+@extends('layouts.app')
+@section('content')
+<style>
+    :root {
+        --primary: #1E40AF;
+        --primary-light: #3B82F6;
+        --primary-dark: #1E3A8A;
+        --secondary: #E0F2FE;
+    }
+    .btn-primary {
+        background-color: var(--primary);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.375rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+    }
+    .hero-section {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/500');
+        background-size: cover;
+        background-position: center;
+    }
+    .property-card {
+        transition: transform 0.3s;
+    }
+    .property-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+<h1>become<h1>
+@endsection
+
