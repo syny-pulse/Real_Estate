@@ -10,13 +10,13 @@
 </head>
 <body class="bg-gray-50">
     @include('partials.header')
-    
+
     <main>
         @yield('content')
     </main>
-    
+
     @include('partials.footer')
-    
+
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')
 </body>
