@@ -1,36 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    :root {
-        --primary: #1E40AF;
-        --primary-light: #3B82F6;
-        --primary-dark: #1E3A8A;
-        --secondary: #E0F2FE;
-    }
-    .btn-primary {
-        background-color: var(--primary);
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.375rem;
-        font-weight: 500;
-        transition: all 0.2s;
-    }
-    .btn-primary:hover {
-        background-color: var(--primary-dark);
-    }
-    .hero-section {
-        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/500');
-        background-size: cover;
-        background-position: center;
-    }
-    .property-card {
-        transition: transform 0.3s;
-    }
-    .property-card:hover {
-        transform: translateY(-5px);
-    }
-</style>
+
  <!-- Hero Section -->
  <section class="hero-section h-96 flex items-center">
     <div class="container mx-auto px-4 text-center">
@@ -171,7 +142,7 @@
         <h2 class="text-3xl font-bold mb-4">Ready to Find Your Dream Property?</h2>
         <p class="text-xl mb-8 max-w-2xl mx-auto">Join thousands of happy customers who found their perfect home with PropertyFinder.</p>
         <div class="space-x-4">
-            <a href="/register" class="btn-primary bg-white text-blue-800 hover:bg-gray-100">Register Now</a>
+            <a href="{{route('register.show')}}" class="btn-primary bg-white text-blue-800 hover:bg-gray-100">Register Now</a>
             <a href="/properties" class="btn-primary bg-transparent border border-white hover:bg-blue-900">Browse Properties</a>
         </div>
     </div>

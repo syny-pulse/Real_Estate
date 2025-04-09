@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 // create_reviews_table.php
 
@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('rating');
             $table->text('comment')->nullable();
             $table->timestamps();
-            
+
             // One review per booking
             $table->unique('booking_id');
         });

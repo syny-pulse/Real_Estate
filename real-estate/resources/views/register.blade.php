@@ -1,34 +1,60 @@
 @extends('layouts.app')
 @section('content')
-<style>
-    :root {
-        --primary: #1E40AF;
-        --primary-light: #3B82F6;
-        --primary-dark: #1E3A8A;
-        --secondary: #E0F2FE;
-    }
-    .btn-primary {
-        background-color: var(--primary);
-        color: white;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.375rem;
-        font-weight: 500;
-        transition: all 0.2s;
-    }
-    .btn-primary:hover {
-        background-color: var(--primary-dark);
-    }
-    .hero-section {
-        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/api/placeholder/1200/500');
-        background-size: cover;
-        background-position: center;
-    }
-    .property-card {
-        transition: transform 0.3s;
-    }
-    .property-card:hover {
-        transform: translateY(-5px);
-    }
-</style>
-<h1>become<h1>
+
+@if ($errors->any())
+    <div class="">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+<form method="POST" action="{{route('register.store')}}" enctype="multipart/form-data">
+    @csrf
+    <div class="mb-4">
+        <label for="name" class="">Name</label>
+        <input type="text" name="name" id="name" class="" value="{{ old('name') }}" required>
+    </div>
+
+    <div class="mb-4">
+        <label for="email" class="">Email</label>
+        <input type="email" name="email" id="email" class="" value="{{ old('email') }}" required>
+    </div>
+
+    <div class="mb-4">
+        <label for="password" class="">Password</label>
+        <input type="password" name="password" id="password" class="" required>
+    </div>
+
+    <div class="mb-4">
+        <label for="phone" class="">Phone Number</label>
+        <input type="number" name="phone" id="phone" class="" value="{{ old('phone') }}">
+    </div>
+
+    <div class="mb-4">
+        <label for="address" class="">Address</label>
+        <textarea name="address" id="address" rows="3" class="">{{ old('address') }}</textarea>
+    </div>
+
+    <div class="mb-4">
+        <label for="role" class="">Role</label>
+        <select name="role" id="role" class="">
+            <option value="customer" {{ old('role') == 'customer' ? 'selected' : '' }}>Customer</option>
+            <option value="owner" {{ old('role') == 'owner' ? 'selected' : '' }}>Property Owner</option>
+            <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+        </select>
+    </div>
+
+    <div class="mb-4">
+        <label for="profile_image" class="">Profile Image</label>
+        <input type="file" name="profile_image" id="profile_image" class="">
+    </div>
+
+    <div class="">
+        <button type="submit" class="">
+            Submit
+        </button>
+    </div>
+</form>
 @endsection

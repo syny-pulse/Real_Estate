@@ -1,15 +1,18 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PropertyController;
+// use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\owner\PropertyController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
 Route::get('/properties/{property:slug}', [PropertyController::class, 'show'])->name('properties.show');
+Route::get('/property-owner', [PropertyController::class, 'benefits'])->name('property.owner.benefits');
+
 Route::get('/about', function() { return view('about'); })->name('about');
 Route::get('/contact', function() { return view('contact'); })->name('contact');
 
@@ -35,12 +38,13 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-// Register route
-Route::get('/register', [RegisterController::class, 'register'])->name('registration');
+// // Register route
+Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
+Route::post('/store', [RegisterController::class, 'store'])->name('register.store');
 
-// Login route
+// // Login route
 Route::get('/login', [LoginController::class, 'login'])->name('login');
 
-// Include admin and owner route files
+// // Include admin and owner route files
 require __DIR__.'/admin.php';
-require __DIR__.'/owner.php';
+

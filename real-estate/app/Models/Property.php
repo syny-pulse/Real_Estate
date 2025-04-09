@@ -11,7 +11,7 @@ class Property extends Model
     protected $fillable = [
         'title', 'slug', 'description', 'price', 'property_type',
         'address', 'city', 'state', 'country', 'latitude', 'longitude',
-        'owner_id', 'bedrooms', 'bathrooms', 'area', 'is_featured', 
+        'owner_id', 'bedrooms', 'bathrooms', 'area', 'is_featured',
         'status', 'availability_status'
     ];
 
@@ -52,7 +52,7 @@ class Property extends Model
 
     public function getPrimaryImageAttribute()
     {
-        return $this->images()->where('is_primary', true)->first() ?? 
+        return $this->images()->where('is_primary', true)->first() ??
                $this->images()->first();
     }
 
