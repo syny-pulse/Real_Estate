@@ -26,7 +26,8 @@ class LoginController extends Controller
 
             $redirectPath = $this->getredirectedBasedOnRole($user);
 
-            return redirect()->intended($redirectPath)->with('success', 'Login successful!');
+            return redirect()->intended(route($redirectPath))->with('success', 'Login successful!');
+
         }
         // If login fails, redirect back with an error message
         return redirect()->back()->withErrors([
@@ -45,10 +46,10 @@ class LoginController extends Controller
             return '';
 
             case 'owner':
-            return redirect()->route('property.owner.dashboard');
+           return 'property.owner.dashboard';
 
             default:
-            return redirect()->route('home');
+            return 'home';
         }
     }
 
