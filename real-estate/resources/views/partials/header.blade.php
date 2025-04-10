@@ -9,7 +9,7 @@
             <a href="/contact" class="font-medium text-gray-600 hover:text-blue-800">Contact Us</a>
         </nav>
         <div class="flex items-center space-x-4">
-            <a href="{{route('login')}}" class="font-medium text-gray-600 hover:text-blue-800">Login</a>
+            <a href="{{route('login.show')}}" class="font-medium text-gray-600 hover:text-blue-800">Login</a>
             <a href="{{route('register.show')}}" class="btn-primary">Register</a>
         </div>
     </div>

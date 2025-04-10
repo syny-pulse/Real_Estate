@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Hash;
 
+
 class RegisterController extends Controller
 {
     public function show(){
@@ -17,11 +18,11 @@ class RegisterController extends Controller
     public function store(Request $request){
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:40'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
             'password' => ['required', Password::defaults()],
             'phone' => ['required', 'numeric', 'digits:10'],
             'address' => ['nullable', 'string'],
-            'role' => ['required', Rule::in(['admin', 'property owner', 'customer'])],
+            'role' => ['required', Rule::in(['admin', 'owner', 'customer'])],
             'profile_image' => ['required', 'image', 'max:5120'], // Max 5MB
         ]);
 
@@ -41,6 +42,6 @@ class RegisterController extends Controller
     $user = User::create($validated);
 
     // Redirect with success message
-    return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
+    return redirect()->route('login.show')->with('success', 'Registration successful! Please log in.');
     }
 }

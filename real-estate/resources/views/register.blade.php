@@ -12,43 +12,43 @@
 @endif
 <form method="POST" action="{{route('register.store')}}" enctype="multipart/form-data">
     @csrf
-    <div class="mb-4">
+    <div class="">
         <label for="name" class="">Name</label>
         <input type="text" name="name" id="name" class="" value="{{ old('name') }}" required>
     </div>
 
-    <div class="mb-4">
+    <div class="">
         <label for="email" class="">Email</label>
         <input type="email" name="email" id="email" class="" value="{{ old('email') }}" required>
     </div>
 
-    <div class="mb-4">
+    <div class="">
         <label for="password" class="">Password</label>
         <input type="password" name="password" id="password" class="" required>
     </div>
 
-    <div class="mb-4">
+    <div class="">
         <label for="phone" class="">Phone Number</label>
-        <input type="number" name="phone" id="phone" class="" value="{{ old('phone') }}">
+        <input type="number" name="phone" id="phone" class="" value="{{ old('phone') }}"required>
     </div>
 
-    <div class="mb-4">
+    <div class="">
         <label for="address" class="">Address</label>
         <textarea name="address" id="address" rows="3" class="">{{ old('address') }}</textarea>
     </div>
 
-    <div class="mb-4">
+    <div class="">
         <label for="role" class="">Role</label>
-        <select name="role" id="role" class="">
+        <select name="role" id="role" class="" required>
             <option value="customer" {{ old('role') == 'customer' ? 'selected' : '' }}>Customer</option>
-            <option value="owner" {{ old('role') == 'owner' ? 'selected' : '' }}>Property Owner</option>
+            <option value="owner" {{ old('role') == 'owner' ? 'selected' : '' }}>Owner</option>
             <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
         </select>
     </div>
 
-    <div class="mb-4">
+    <div class="">
         <label for="profile_image" class="">Profile Image</label>
-        <input type="file" name="profile_image" id="profile_image" class="">
+        <input type="file" name="profile_image" id="profile_image" class=""required>
     </div>
 
     <div class="">
@@ -56,5 +56,6 @@
             Submit
         </button>
     </div>
+    <p>By submitting this form, i am agreeing to the PropertyFinder <a href = "{{route('legal.terms')}}">Terms</a> and <a href = "{{route('privacy.policy')}}">privacy policy</a></p>
 </form>
 @endsection
