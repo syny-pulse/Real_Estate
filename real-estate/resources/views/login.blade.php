@@ -104,6 +104,21 @@
     .link:hover {
         text-decoration: underline;
     }
+    
+    .remember-checkbox {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .remember-checkbox input {
+        margin-right: 0.5rem;
+    }
+    
+    .remember-checkbox label {
+        color: #4b5563;
+        font-size: 0.875rem;
+    }
 </style>
 
 <section class="page-section">
@@ -130,6 +145,11 @@
             <div class="form-group">
                 <label for="password" class="form-label">Password</label>
                 <input type="password" name="password" id="password" class="form-input" required>
+            </div>
+            
+            <div class="remember-checkbox">
+                <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                <label for="remember">Remember me</label>
             </div>
             
             <p class="forgot-password">
