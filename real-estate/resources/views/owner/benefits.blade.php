@@ -93,7 +93,7 @@
         <h2 class="text-4xl font-bold text-gray-800 mb-16 text-center">Reason to list your property at Property Finder</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="p-6 bg-white rounded-lg shadow-md">
+            <div class="p-6 bg-blue-50 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Accept Online Applications</h3>
                 <p class="text-gray-600">Collect all the information needed to properly evaluate candidates: employment & income, residence history, personal information, and more.</p>
             </div>
@@ -162,12 +162,12 @@
                 </div>
             </div>
             
-            <div class="p-6 bg-white rounded-lg shadow-md">
+            <div class="p-6 bg-blue-50 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Accept Online Applications</h3>
                 <p class="text-gray-600">Collect all the information needed to properly evaluate candidates: employment & income, residence history, personal information, and more.</p>
             </div>
             
-            <div class="p-6 bg-white rounded-lg shadow-md">
+            <div class="p-6 bg-blue-50 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Accept Online Applications</h3>
                 <p class="text-gray-600">Collect all the information needed to properly evaluate candidates: employment & income, residence history, personal information, and more.</p>
             </div>
