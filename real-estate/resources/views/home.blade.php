@@ -3,7 +3,7 @@
 @section('content')
 
  <!-- Hero Section -->
- <section class="hero-section h-96 flex items-center">
+ <section class="hero-section h-96 flex items-center" style="background-image: url('/uploads/properties/hero.jpg'); background-size: 100% auto; background-repeat: no-repeat; background-position: center;">
     <div class="container mx-auto px-4 text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-6">Find Your Perfect Home</h1>
         <p class="text-xl text-white mb-8 max-w-2xl mx-auto">Browse thousands of properties across the country and find the perfect place for you and your family.</p>

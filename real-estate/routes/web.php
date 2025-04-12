@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\owner\PropertyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\ProfileController; // Add this line
 use Illuminate\Auth\Notifications\ResetPassword;
 
 // Public routes
@@ -31,6 +32,11 @@ Route::middleware(['auth'])->group(function () {
             return redirect()->route('customer.dashboard');
         }
     })->name('dashboard');
+
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
+    Route::post('/profile/update-image', [ProfileController::class, 'updateImage'])->name('profile.update-image');
+    Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     // Customer routes
     Route::middleware(['customer'])->prefix('customer')->group(function () {
@@ -66,4 +72,3 @@ Route::get('/privacy-policy', [PropertyController::class, 'privacy'])->name('pri
 
 //  Include admin and owner route files
 require __DIR__.'/admin.php';
-
