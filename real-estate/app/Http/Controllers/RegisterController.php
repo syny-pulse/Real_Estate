@@ -19,7 +19,7 @@ class RegisterController extends Controller
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:40'],
             'email' => ['required', 'string', 'email', 'max:50', 'unique:users'],
-            'password' => ['required', Password::defaults()],
+            'password' => ['required','min:5', Password::defaults()],
             'phone' => ['required', 'numeric', 'digits:10'],
             'address' => ['nullable', 'string'],
             'role' => ['required', Rule::in(['admin', 'owner', 'customer'])],
