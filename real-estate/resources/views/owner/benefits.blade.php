@@ -8,13 +8,13 @@
         <div class="max-w-lg mx-auto text-center lg:text-left">
             <h1 class="text-4xl font-semibold mb-6">Become a landlord at Property Finder with one step</h1>
             <p class="text-lg mb-8 opacity-90">Are you interested in registering as a Property Owner at Property Finder? Fill in your personal details so that we know you better and our team will review and confirm your details within 24 hours.</p>
-            
+
             <div class="w-56 h-72 md:w-72 md:h-72 lg:w-72 lg:h-72 bg-white rounded-full flex items-center justify-center mx-auto my-8 overflow-hidden">
                 <img src="\uploads\properties\landlord.png" alt="Modern House" class="w-full h-full object-cover">
             </div>
         </div>
     </div>
-    
+
     <!-- Right Panel -->
     <div class="flex-1 bg-white flex items-center justify-center p-4 md:p-8">
         <div class="w-full max-w-md">
@@ -30,7 +30,7 @@
 
             <div class="mb-8">
                 <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Register as a Property Owner</h2>
-                
+
                 <form method="POST" action="{{ url('/register') }}" enctype="multipart/form-data">
                     @csrf
                     <div class="mb-4">
@@ -78,9 +78,9 @@
                             Submit for Review
                         </button>
                     </div>
-                    
+
                     <p class="text-center text-gray-700 mt-6">Already a Property Owner on PropertyFinder? Please <a href="/login" class="text-blue-800 font-medium hover:underline">login here</a></p>
-                    <p class="text-center text-gray-500 text-sm mt-3">By submitting this form, I am agreeing to the PropertyFinder <a href="/terms" class="text-blue-800 font-medium hover:underline">Terms</a> and <a href="/privacy-policy" class="text-blue-800 font-medium hover:underline">Privacy Policy</a></p>
+                    <p class="text-center text-gray-500 text-sm mt-3">By submitting this form, I am agreeing to the PropertyFinder <a href="{{route('legal.terms')}}" class="text-blue-800 font-medium hover:underline">Terms</a> and <a href="{{route('privacy.policy')}}" class="text-blue-800 font-medium hover:underline">Privacy Policy</a></p>
                 </form>
             </div>
         </div>
@@ -91,20 +91,20 @@
 <section class="py-20 px-4 md:px-8 bg-white">
     <div class="max-w-6xl mx-auto">
         <h2 class="text-4xl font-bold text-gray-800 mb-16 text-center">Reason to list your property at Property Finder</h2>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div class="p-6 bg-blue-50 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Accept Online Applications</h3>
                 <p class="text-gray-600">Collect all the information needed to properly evaluate candidates: employment & income, residence history, personal information, and more.</p>
             </div>
-            
+
             <div class="p-8 bg-blue-50 rounded-xl shadow-md col-span-1 md:col-span-2 lg:col-span-2 relative overflow-hidden">
                 <div class="flex flex-col md:flex-row items-center">
                     <!-- Left side content -->
                     <div class="md:w-1/2 mb-6 md:mb-0 md:pr-6">
                         <h3 class="text-2xl font-semibold text-blue-800 mb-3">Maximum Exposure for Your Property</h3>
                         <p class="text-gray-700 mb-4">Reach thousands of potential tenants searching for their next home through our powerful platform. Our advanced search algorithms ensure your property gets in front of the right audience.</p>
-                        
+
                         <div class="flex items-center mb-4">
                             <div class="bg-blue-100 rounded-full p-2 mr-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
@@ -114,7 +114,7 @@
                             </div>
                             <p class="font-medium text-gray-700">25,000+ active daily users</p>
                         </div>
-                        
+
                         <div class="flex items-center">
                             <div class="bg-blue-100 rounded-full p-2 mr-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
@@ -124,11 +124,11 @@
                             <p class="font-medium text-gray-700">Average listing time: 14 days</p>
                         </div>
                     </div>
-                    
+
                     <!-- Right side stats -->
                     <div class="md:w-1/2 bg-white rounded-lg shadow-lg p-6">
                         <h4 class="text-lg font-semibold text-gray-800 mb-4">Performance Statistics</h4>
-                        
+
                         <div class="mb-4">
                             <div class="flex justify-between mb-1">
                                 <span class="text-sm font-medium text-gray-700">Property views</span>
@@ -138,7 +138,7 @@
                                 <div class="bg-blue-600 h-2 rounded-full" style="width: 80%"></div>
                             </div>
                         </div>
-                        
+
                         <div class="mb-4">
                             <div class="flex justify-between mb-1">
                                 <span class="text-sm font-medium text-gray-700">Inquiries received</span>
@@ -148,7 +148,7 @@
                                 <div class="bg-blue-600 h-2 rounded-full" style="width: 65%"></div>
                             </div>
                         </div>
-                        
+
                         <div>
                             <div class="flex justify-between mb-1">
                                 <span class="text-sm font-medium text-gray-700">Qualified leads</span>
@@ -161,12 +161,12 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="p-6 bg-blue-50 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Accept Online Applications</h3>
                 <p class="text-gray-600">Collect all the information needed to properly evaluate candidates: employment & income, residence history, personal information, and more.</p>
             </div>
-            
+
             <div class="p-6 bg-blue-50 rounded-lg shadow-md">
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">Accept Online Applications</h3>
                 <p class="text-gray-600">Collect all the information needed to properly evaluate candidates: employment & income, residence history, personal information, and more.</p>
@@ -188,7 +188,7 @@
     document.querySelector('.toggle-password').addEventListener('click', function() {
         const passwordInput = document.querySelector('#password');
         const icon = this.querySelector('i');
-        
+
         if (passwordInput.type === 'password') {
             passwordInput.type = 'text';
             icon.classList.remove('fa-eye-slash');

@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\owner\PropertyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ResetPasswordController;
-use App\Http\Controllers\ProfileController; // Add this line
 use Illuminate\Auth\Notifications\ResetPassword;
+use App\Http\Controllers\ChangePasswordController;
+use App\Http\Controllers\ProfileController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -58,6 +59,10 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 //Reset password
 Route::get('/forgot-password', [ResetPasswordController::class, 'show'])->name('password.request');
 Route::post('/forgot-password', [ResetPasswordController::class, 'send'])->name('password.send');
+
+// change password
+Route::get('/change-password/{token}', [ChangePasswordController::class, 'show'])->name('password.reset');
+Route::post('/change-password', [ChangePasswordController::class, 'update'])->name('password.update');
 
 
 // Property owner routes
