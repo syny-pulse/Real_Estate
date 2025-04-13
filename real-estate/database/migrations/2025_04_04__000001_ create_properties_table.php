@@ -18,9 +18,6 @@ return new class extends Migration
             $table->decimal('price', 12, 2);
             $table->enum('property_type', ['apartment', 'house', 'land', 'commercial']);
             $table->text('address');
-            $table->string('city');
-            $table->string('state')->nullable();
-            $table->string('country');
             $table->decimal('latitude', 10, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');

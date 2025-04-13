@@ -1,21 +1,20 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-// use App\Http\Controllers\PropertyController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PropertiesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\owner\PropertyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ResetPasswordController;
-use Illuminate\Auth\Notifications\ResetPassword;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ProfileController;
 
 // Public routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
-Route::get('/properties/{property:slug}', [PropertyController::class, 'show'])->name('properties.show');
+//Route::get('/properties', [PropertyController::class, 'index'])->name('properties.index');
+//Route::get('/properties/{property:slug}', [PropertyController::class, 'show'])->name('properties.show');
 
 Route::get('/about', function() { return view('about'); })->name('about');
 Route::get('/contact', function() { return view('contact'); })->name('contact');
@@ -64,6 +63,10 @@ Route::post('/forgot-password', [ResetPasswordController::class, 'send'])->name(
 Route::get('/change-password/{token}', [ChangePasswordController::class, 'show'])->name('password.reset');
 Route::post('/change-password', [ChangePasswordController::class, 'update'])->name('password.update');
 
+//properties
+Route::get('/properties/create', [PropertiesController::class, 'create'])->name('properties.create');
+Route::post('/properties', [PropertiesController::class, 'store'])->name('properties.store');
+
 
 // Property owner routes
 Route::get('/property-owner', [PropertyController::class, 'benefits'])->name('property.owner.benefits');
@@ -74,6 +77,9 @@ Route::get('/legal-terms', [PropertyController::class, 'terms'])->name('legal.te
 
 // privacy policy
 Route::get('/privacy-policy', [PropertyController::class, 'privacy'])->name('privacy.policy');
+
+
+
 
 //  Include admin and owner route files
 require __DIR__.'/admin.php';

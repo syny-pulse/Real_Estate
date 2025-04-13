@@ -10,7 +10,7 @@ class Property extends Model
 {
     protected $fillable = [
         'title', 'slug', 'description', 'price', 'property_type',
-        'address', 'city', 'state', 'country', 'latitude', 'longitude',
+        'address','latitude', 'longitude',
         'owner_id', 'bedrooms', 'bathrooms', 'area', 'is_featured',
         'status', 'availability_status'
     ];
