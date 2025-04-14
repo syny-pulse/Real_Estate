@@ -212,6 +212,68 @@
                 </a>
                 @endauth
             </div>
+
+            <!-- Reviews Section -->
+            <div class="mt-12">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Reviews</h2>
+                
+                @auth
+                @php
+                    $userBooking = \App\Models\Booking::where('customer_id', auth()->id())
+                        ->where('property_id', $property->id)
+                        ->first();
+                @endphp
+                
+                @if($userBooking && !$userBooking->review)
+                <button onclick="document.getElementById('review-modal').showModal()" 
+                        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition mb-4">
+                    Add Review
+                </button>
+
+                <dialog id="review-modal" class="p-6 rounded-lg shadow-xl backdrop:bg-black/50 w-full max-w-md">
+                    <form method="POST" action="{{ route('reviews.store') }}" class="space-y-4">
+                        @csrf
+                        <input type="hidden" name="property_id" value="{{ $property->id }}">
+                        <input type="hidden" name="booking_id" value="{{ $userBooking->id }}">
+                        
+                        <div>
+                            <label class="block text-gray-700 mb-2">Rating</label>
+                            <div class="flex justify-between">
+                                @foreach([0 => '😡', 1 => '😞', 2 => '😐', 3 => '🙂', 4 => '😊', 5 => '😍'] as $rating => $emoji)
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="rating" value="{{ $rating }}" class="hidden peer" required>
+                                    <span class="text-4xl peer-checked:text-yellow-400">{{ $emoji }}</span>
+                                </label>
+                                @endforeach
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-gray-700">Comment</label>
+                            <textarea name="comment" class="w-full p-2 border rounded" rows="4"></textarea>
+                        </div>
+                        
+                        <div class="flex justify-end space-x-4">
+                            <button type="button" onclick="document.getElementById('review-modal').close()" 
+                                    class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                                Cancel
+                            </button>
+                            <button type="submit" 
+                                    class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                                Submit Review
+                            </button>
+                        </div>
+                    </form>
+                </dialog>
+                @elseif($userBooking && $userBooking->review)
+                <p class="text-gray-600">You've already reviewed this property</p>
+                @else
+                <p class="text-gray-600">You must book this property before reviewing</p>
+                @endif
+                @else
+                <p class="text-gray-600">Please <a href="{{ route('login') }}" class="text-blue-600 hover:underline">login</a> to leave a review</p>
+                @endauth
+            </div>
         </div>
     </div>
 </div>
