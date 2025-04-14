@@ -13,14 +13,14 @@ return new class extends Migration
         Schema::create('amenities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
-            $table->boolean('has_wifi')->default(false);
-            $table->boolean('has_parking')->default(false);
-            $table->boolean('has_pool')->default(false);
-            $table->boolean('has_balcony')->default(false);
-            $table->boolean('has_gym')->default(false);
-            $table->boolean('has_security')->default(false);
-            $table->boolean('has_ac')->default(false);
-            $table->boolean('has_heating')->default(false);
+            $table->boolean('has_wifi')->default(false); //Wifi
+            $table->boolean('has_parking')->default(false); //Parking
+            $table->boolean('has_pool')->default(false); //Swimming Pool
+            $table->boolean('has_balcony')->default(false);//Balcony
+            $table->boolean('has_gym')->default(false); //Gym
+            $table->boolean('has_security')->default(false); //Security
+            $table->boolean('has_ac')->default(false); //AC
+            $table->boolean('has_heating')->default(false); //Heating
             $table->timestamps();
             
             // One amenity record per property

@@ -3,7 +3,7 @@
         <a href="{{route('home')}}" class="text-2xl font-bold text-blue-800">{{ config('app.name', 'PropertyFinder') }}</a>
         <nav class="hidden md:flex space-x-6">
             <a href="{{route('home')}}" class="font-medium text-blue-800">Home</a>
-            <a href="{{route('home')}}" class="font-medium text-gray-600 hover:text-blue-800">Listed Properties</a>
+            <a href="{{route('properties.index')}}" class="font-medium text-gray-600 hover:text-blue-800">Listed Properties</a>
             <a href="{{route('property.owner.benefits')}}" class="font-medium text-gray-600 hover:text-blue-800">Property Owner</a>
             <a href="/about" class="font-medium text-gray-600 hover:text-blue-800">About Us</a>
             <a href="/contact" class="font-medium text-gray-600 hover:text-blue-800">Contact Us</a>

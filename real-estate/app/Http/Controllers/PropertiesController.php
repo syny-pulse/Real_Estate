@@ -12,6 +12,30 @@ use Illuminate\Http\Request;
 
 class PropertiesController extends Controller
 {
+    public function index()
+    {
+        $properties = Property::with(['images' => function($query) {
+                $query->where('is_primary', true);
+            }])
+            ->where('status', 'approved')
+            ->orderBy('created_at', 'desc')
+            ->paginate(12);
+
+        return view('properties.index', compact('properties'));
+    }
+
+    public function show(Property $property)
+    {
+        $property->load('images');
+        $amenities = $property->amenities->first();
+        $location = [
+            'address' => $property->address,
+            'latitude' => $property->latitude,
+            'longitude' => $property->longitude
+        ];
+        return view('properties.show', compact('property', 'amenities', 'location'));
+    }
+
     public function create() {
         return view('owner.properties-create');
     }
