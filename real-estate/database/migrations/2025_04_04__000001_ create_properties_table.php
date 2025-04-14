@@ -30,7 +30,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Indexing for faster searches
-            $table->index(['city', 'property_type', 'status', 'availability_status']);
+            $table->index(['property_type', 'status', 'availability_status']);
             $table->index('owner_id');
             $table->index('price');
         });

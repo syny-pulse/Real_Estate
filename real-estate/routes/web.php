@@ -39,16 +39,16 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     // Customer routes
-    Route::middleware(['customer'])->prefix('customer')->group(function () {
-        Route::get('/dashboard', [CustomerController::class, 'dashboard'])->name('customer.dashboard');
-        Route::resource('wishlist', WishlistController::class)->only(['index', 'store', 'destroy']);
-        Route::resource('bookings', BookingController::class);
+    Route::middleware(['auth'])->prefix('customer')->group(function () {
+        Route::resource('wishlist', \App\Http\Controllers\WishlistController::class)->only(['index', 'store', 'destroy']);
+        Route::resource('bookings', \App\Http\Controllers\BookingController::class)->only(['store']);
+        // Route::resource('bookings', BookingController::class); // Commented out until BookingController exists
     });
 });
 
-//  Register route
+// Register routes
 Route::get('/register', [RegisterController::class, 'show'])->name('register.show');
-Route::post('/store', [RegisterController::class, 'store'])->name('register.store');
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 // Login route
 Route::get('/login', [LoginController::class, 'show'])->name('login.show');
@@ -63,9 +63,14 @@ Route::post('/forgot-password', [ResetPasswordController::class, 'send'])->name(
 Route::get('/change-password/{token}', [ChangePasswordController::class, 'show'])->name('password.reset');
 Route::post('/change-password', [ChangePasswordController::class, 'update'])->name('password.update');
 
-//properties
-Route::get('/properties/create', [PropertiesController::class, 'create'])->name('properties.create');
-Route::post('/properties', [PropertiesController::class, 'store'])->name('properties.store');
+// Properties routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/properties/create', [PropertiesController::class, 'create'])->name('properties.create');
+    Route::post('/properties', [PropertiesController::class, 'store'])->name('properties.store');
+});
+
+Route::get('/properties', [PropertiesController::class, 'index'])->name('properties.index');
+Route::get('/properties/{property}', [PropertiesController::class, 'show'])->name('properties.show');
 
 
 // Property owner routes
