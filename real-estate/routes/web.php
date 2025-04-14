@@ -42,6 +42,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['auth'])->prefix('customer')->group(function () {
         Route::resource('wishlist', \App\Http\Controllers\WishlistController::class)->only(['index', 'store', 'destroy']);
         Route::resource('bookings', \App\Http\Controllers\BookingController::class)->only(['store']);
+        Route::resource('reviews', \App\Http\Controllers\ReviewController::class)->only(['store']);
         // Route::resource('bookings', BookingController::class); // Commented out until BookingController exists
     });
 });
