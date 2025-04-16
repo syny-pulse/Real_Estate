@@ -24,9 +24,19 @@ class LoginController extends Controller
 
             $user = Auth::user();
 
+            // Redirect back to intended URL or property details if available
+            $intended = session()->pull('url.intended', null);
+            if ($intended) {
+                return redirect()->to($intended)->with('success', 'Login successful!');
+            }
+
             $redirectPath = $this->getredirectedBasedOnRole($user);
 
-            return redirect()->intended(route($redirectPath))->with('success', 'Login successful!');
+            if (empty($redirectPath)) {
+                // If redirect path is empty, fallback to properties page
+                return redirect()->route('properties.index')->with('success', 'Login successful!');
+            }
+            return redirect()->route($redirectPath)->with('success', 'Login successful!');
 
         }
         // If login fails, redirect back with an error message
