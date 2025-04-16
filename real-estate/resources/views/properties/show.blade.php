@@ -194,7 +194,7 @@
                     </form>
                 </dialog>
                 @else
-                <a href="{{ route('login') }}" class="px-6 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 transition">
+                <a href="{{ route('login.show') }}" class="px-6 py-2 bg-blue-800 text-white rounded hover:bg-blue-700 transition">
                     Login to Book
                 </a>
                 @endauth
@@ -207,7 +207,7 @@
                     </button>
                 </form>
                 @else
-                <a href="{{ route('login') }}" class="px-6 py-2 border border-blue-800 text-blue-800 rounded hover:bg-blue-50 transition">
+                <a href="{{ route('login.show') }}" class="px-6 py-2 border border-blue-800 text-blue-800 rounded hover:bg-blue-50 transition">
                     Login to Add to Wishlist
                 </a>
                 @endauth
@@ -271,7 +271,7 @@
                 <p class="text-gray-600">You must book this property before reviewing</p>
                 @endif
                 @else
-                <p class="text-gray-600">Please <a href="{{ route('login') }}" class="text-blue-600 hover:underline">login</a> to leave a review</p>
+                <p class="text-gray-600">Please <a href="{{ route('login.show') }}" class="text-blue-600 hover:underline">login</a> to leave a review</p>
                 @endauth
             </div>
         </div>

@@ -1,24 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.owner')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'PropertyFinder') }} - Add New Property</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-</head>
+@section('content')
+<main class="flex flex-col lg:flex-row min-h-screen bg-gray-50">
+    <!-- Include the sidebar partial -->
+    @include('owner.partials.sidebar')
 
-<body class="bg-gray-50">
+    <!-- Main Content Area -->
+    <div class="flex-1 md:ml-64">
     <div class="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg my-8">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 border-b pb-4">Add New Property</h1>
+        <h1 class="text-3xl font-bold text-blue-900 mb-6 border-b pb-4">Add New Property</h1>
 
         <!-- Success Message -->
         @if (session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+            <div class="bg-blue-50 border-l-4 border-blue-500 text-blue-800 p-4 mb-6" role="alert">
                 <p class="font-bold">Success!</p>
                 <p>{{ session('success') }}</p>
             </div>
@@ -58,8 +52,8 @@
             <input type="hidden" name="status" id="property-status" value="pending">
 
             <!-- Title & Description -->
-            <div class="mb-8 bg-gray-50 p-6 rounded-lg">
-                <h2 class="text-xl font-semibold text-gray-800 mb-2">Title & Description</h2>
+            <div class="mb-8 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+                <h2 class="text-xl font-semibold text-blue-800 mb-2">Title & Description</h2>
                 <p class="text-gray-600 text-sm mb-4">Describe your property to your attendants</p>
 
                 <div class="mb-4">
@@ -83,8 +77,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Property Type -->
-                <div class="mb-6 bg-gray-50 p-6 rounded-lg">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-2">Type</h2>
+                <div class="mb-6 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-blue-800 mb-2">Type</h2>
                     <p class="text-gray-600 text-sm mb-4">Let's set the property type</p>
                     <select name="property_type"
                         class="w-full px-4 py-3 border @error('property_type') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -102,8 +96,8 @@
                 </div>
 
                 <!-- Price -->
-                <div class="mb-6 bg-gray-50 p-6 rounded-lg">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-2">Price</h2>
+                <div class="mb-6 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-blue-800 mb-2">Price</h2>
                     <p class="text-gray-600 text-sm mb-4">Let's set the property price</p>
                     <input type="number" name="price" step="any" value="{{ old('price') }}"
                         class="w-full px-4 py-3 border @error('price') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -115,8 +109,8 @@
             </div>
 
             <!-- Map -->
-            <div class="mb-8 bg-gray-50 p-6 rounded-lg">
-                <h2 class="text-xl font-semibold text-gray-800 mb-2">Location</h2>
+            <div class="mb-8 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+                <h2 class="text-xl font-semibold text-blue-800 mb-2">Location</h2>
                 <p class="text-sm text-gray-600 mb-2">Click on the map to select property location</p>
                 <div id="map" style="height: 400px;"
                     class="mb-4 rounded-lg border @error('latitude') border-red-500 @else border-gray-300 @enderror">
@@ -133,7 +127,7 @@
                 @enderror
 
                 <div class="mt-4">
-                    <label for="location" class="block text-gray-700 mb-1">Location Name</label>
+                    <label for="location" class="block text-blue-900 mb-1">Location Name</label>
                     <input type="text" id="location" name="address" value="{{ old('address') }}"
                         class="w-full px-4 py-3 border @error('address') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         readonly>
@@ -144,22 +138,22 @@
             </div>
 
             <!-- Photos -->
-            <div class="mb-8 bg-gray-50 p-6 rounded-lg">
-                <h2 class="text-xl font-semibold text-gray-800 mb-2">Photos</h2>
+            <div class="mb-8 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+                <h2 class="text-xl font-semibold text-blue-800 mb-2">Photos</h2>
                 <p class="text-gray-600 text-sm mb-4">Let's add photos for the property</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <!-- Thumbnail Upload -->
                     <div>
                         <div id="thumbnail-container"
-                            class="border-2 border-dashed @error('thumbnail') border-red-500 @else border-gray-300 @enderror rounded-lg p-6 text-center cursor-pointer hover:bg-gray-100 transition">
+                            class="border-2 border-dashed @error('thumbnail') border-red-500 @else border-blue-500 @enderror rounded-lg p-6 text-center cursor-pointer hover:bg-blue-50 transition">
                             <div id="thumbnail-placeholder">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-10 w-10 text-gray-400 mb-3"
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-10 w-10 text-blue-800 mb-3"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
-                                <p class="mb-1 font-medium text-gray-900">Upload thumbnail</p>
+                                <p class="mb-1 font-medium text-blue-900">Upload thumbnail</p>
                                 <p class="text-xs text-gray-500">or drag and drop image here</p>
                             </div>
                             <div id="thumbnail-preview-container" class="relative hidden">
@@ -180,14 +174,14 @@
                     <!-- Multiple Photos Upload -->
                     <div>
                         <div id="photos-container"
-                            class="border-2 border-dashed @error('photos') border-red-500 @else border-gray-300 @enderror rounded-lg p-6 cursor-pointer hover:bg-gray-100 transition">
+                            class="border-2 border-dashed @error('photos') border-red-500 @else border-blue-500 @enderror rounded-lg p-6 cursor-pointer hover:bg-blue-50 transition">
                             <div id="photos-placeholder" class="text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-10 w-10 text-gray-400 mb-3"
+                                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-10 w-10 text-blue-800 mb-3"
                                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
-                                <p class="mb-1 font-medium text-gray-900">Upload property photos</p>
+                                <p class="mb-1 font-medium text-blue-900">Upload property photos</p>
                                 <p class="text-xs text-gray-500">Select at least 4 images</p>
                             </div>
                             <div id="photos-preview" class="mt-2 grid grid-cols-2 gap-2"></div>
@@ -206,8 +200,8 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Bedrooms -->
-                <div class="mb-6 bg-gray-50 p-6 rounded-lg">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-2">Bedrooms</h2>
+                <div class="mb-6 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-blue-800 mb-2">Bedrooms</h2>
                     <p class="text-gray-600 text-sm mb-4">Number of bedrooms</p>
                     <input type="number" name="bedrooms" value="{{ old('bedrooms') }}"
                         class="w-full px-4 py-3 border @error('bedrooms') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -218,8 +212,8 @@
                 </div>
 
                 <!-- Bathrooms -->
-                <div class="mb-6 bg-gray-50 p-6 rounded-lg">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-2">Bathrooms</h2>
+                <div class="mb-6 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-blue-800 mb-2">Bathrooms</h2>
                     <p class="text-gray-600 text-sm mb-4">Number of bathrooms</p>
                     <input type="number" name="bathrooms" value="{{ old('bathrooms') }}"
                         class="w-full px-4 py-3 border @error('bathrooms') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -230,8 +224,8 @@
                 </div>
 
                 <!-- Area -->
-                <div class="mb-6 bg-gray-50 p-6 rounded-lg">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-2">Area</h2>
+                <div class="mb-6 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+                    <h2 class="text-xl font-semibold text-blue-800 mb-2">Area</h2>
                     <p class="text-gray-600 text-sm mb-4">Size of the property</p>
                     <input type="number" name="area" step="any" value="{{ old('area') }}"
                         class="w-full px-4 py-3 border @error('area') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -243,15 +237,15 @@
             </div>
 
             <!-- Amenities -->
-            <div class="mb-8 bg-gray-50 p-6 rounded-lg">
-                <h2 class="text-xl font-semibold text-gray-800 mb-2">Amenities</h2>
+            <div class="mb-8 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+                <h2 class="text-xl font-semibold text-blue-800 mb-2">Amenities</h2>
                 <p class="text-gray-600 text-sm mb-4">Select available amenities</p>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     @foreach (['wifi', 'parking', 'pool', 'balcony', 'gym', 'security', 'ac', 'heating'] as $amenity)
                         <label
-                            class="flex items-center space-x-2 bg-white p-3 rounded-lg border border-gray-200 hover:border-blue-300 cursor-pointer transition">
+                            class="flex items-center space-x-2 bg-white p-3 rounded-lg border border-gray-200 hover:border-blue-500 cursor-pointer transition">
                             <input type="checkbox" name="has_{{ $amenity }}"
-                                {{ old('has_' . $amenity) ? 'checked' : '' }} class="h-5 w-5 text-blue-600 rounded">
+                                {{ old('has_' . $amenity) ? 'checked' : '' }} class="h-5 w-5 text-blue-800 rounded">
                             <span class="text-gray-700">{{ ucfirst($amenity) }}</span>
                         </label>
                     @endforeach
@@ -268,7 +262,7 @@
 
                 <!-- Submit Button -->
                 <button type="submit" id="submit-form"
-                    class="bg-blue-600 text-white py-4 rounded-md hover:bg-blue-700 transition font-medium text-lg flex items-center justify-center">
+                    class="bg-blue-800 text-white py-4 rounded-md hover:bg-blue-900 transition font-medium text-lg flex items-center justify-center">
                     <i class="fas fa-paper-plane mr-2"></i> Send for Approval
                 </button>
             </div>
@@ -278,7 +272,7 @@
     <!-- Confirmation Modal for Clear Form -->
     <div id="clear-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
         <div class="bg-white rounded-lg p-6 max-w-sm mx-auto">
-            <h3 class="text-xl font-bold mb-4">Clear Form?</h3>
+            <h3 class="text-xl font-bold text-blue-900 mb-4">Clear Form?</h3>
             <p class="mb-6">Are you sure you want to clear all data? This action cannot be undone.</p>
             <div class="flex justify-end space-x-3">
                 <button id="cancel-clear" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Cancel</button>
@@ -287,6 +281,9 @@
             </div>
         </div>
     </div>
+
+</div>
+</main>
 
     <script>
         // Initialize map
@@ -490,6 +487,4 @@
             }
         });
     </script>
-</body>
-
-</html>
+@endsection
