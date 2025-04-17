@@ -17,6 +17,37 @@ class BookingController extends Controller
 
         return $bookings;
     }
+    /**
+     * Display the active bookings for properties owned by the user.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function activeBookings()
+    {
+    // Get current user (property owner)
+        $user = auth()->user();
+    
+        // Define what "active" means - current date is between check-in and check-out date
+        $today = now()->format('Y-m-d');
+    
+        // Get properties owned by this user
+        $propertiesOwned = Property::where('owner_id', $user->id)->pluck('id');
+    
+        if ($propertiesOwned->isEmpty()) {
+            // Return view with empty bookings if user has no properties
+            return view('bookings.active-bookings', ['activeBookings' => collect()]);
+        }
+    
+        // Get active bookings for all properties owned by the current user
+        $activeBookings = Booking::with(['property.images', 'customer'])
+            ->whereIn('property_id', $propertiesOwned)
+            ->whereDate('check_in', '<=', $today)
+            ->whereRaw('DATE_ADD(check_in, INTERVAL booking_period DAY) >= ?', [$today])
+            ->orderBy('check_in', 'asc')
+            ->paginate(10);
+    
+        return view('bookings.active-bookings', compact('activeBookings'));
+    }
     public function store(Request $request)
     {
         $request->validate([
