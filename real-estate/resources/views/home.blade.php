@@ -68,7 +68,7 @@
                                 <span>{{ $property->area }} sqft</span>
                             @endif
                         </div>
-                        <a href="{{ route('properties.show', $property->slug) }}" class="block mt-4 text-center py-2 border border-blue-800 text-blue-800 rounded hover:bg-blue-800 hover:text-white transition">View Details</a>
+                        <a href="{{ route('properties.show', $property->id) }}" class="block mt-4 text-center py-2 border border-blue-800 text-blue-800 rounded hover:bg-blue-800 hover:text-white transition">View Details</a>
                     </div>
                 </div>
             @empty
