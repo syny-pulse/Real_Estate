@@ -3,7 +3,7 @@
 @section('content')
 
 <!-- Hero Section -->
-<section class="hero-section h-64 flex items-center">
+<section class="hero-section h-64 flex items-center"style="background-image: url('/uploads/properties/hero2.jpg'); background-size: 100% auto; background-repeat: no-repeat; background-position: center;">
     <div class="container mx-auto px-4 text-center">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">About PropertyFinder</h1>
         <p class="text-xl text-white max-w-2xl mx-auto">Your trusted partner in finding the perfect property solution.</p>

@@ -91,7 +91,7 @@
                                 <span class="text-xl font-bold text-blue-800">{{ number_format($property->price) }}</span>
                                 <span class="text-gray-500 text-sm ml-1">
                                     @if(in_array($property->property_type, ['apartment', 'house']))
-                                        / Month
+                                        UGX / Month
                                     @endif
                                 </span>
                             </div>
@@ -125,7 +125,6 @@
 
                             <div class="flex space-x-2">
                                 <a href="{{ route('properties.edit', $property->id) }}" class="px-3 py-1.5 border border-blue-800 text-blue-800 rounded hover:bg-blue-50 transition text-sm flex-1 text-center">Edit</a>
-                                <a href="{{ route('properties.show', $property->id) }}" class="px-3 py-1.5 bg-blue-800 text-white rounded hover:bg-blue-700 transition text-sm flex-1 text-center">View</a>
                                 <button type="button" class="px-3 py-1.5 border border-red-500 text-red-500 rounded hover:bg-red-50 transition text-sm flex-shrink-0" 
                                         onclick="confirmDelete('{{ $property->id }}', '{{ $property->title }}')">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
