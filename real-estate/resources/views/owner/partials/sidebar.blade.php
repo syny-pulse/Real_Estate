@@ -44,10 +44,11 @@
                         </svg>
                     </button>
                     <div class="pl-12 hidden booking-dropdown" style="background-color: #f9fafb; box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);">
-                        <a href="#active-bookings"
-                            class="block py-2 text-sm text-gray-700" style="transition: color 0.2s ease; hover:color: #1E40AF; padding-left: 0.75rem;">
+                    <a href="/active-bookings" 
+                        class="block py-2 text-sm text-gray-700" 
+                        style="transition: color 0.2s ease; hover:color: #1E40AF; padding-left: 0.75rem;">
                             Active Bookings
-                        </a>
+                    </a>
                         <a href="#pending-requests"
                             class="block py-2 text-sm text-gray-700" style="transition: color 0.2s ease; hover:color: #1E40AF; padding-left: 0.75rem;">
                             Pending Requests
