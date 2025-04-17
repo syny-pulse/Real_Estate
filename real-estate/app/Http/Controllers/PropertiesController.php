@@ -43,7 +43,7 @@ class PropertiesController extends Controller
     $property->load('images');
 
     $amenities = $property->amenities ? $property->amenities->first() : null;
-    
+
     $location = [
         'address' => $property->address,
         'latitude' => $property->latitude,
@@ -65,7 +65,7 @@ class PropertiesController extends Controller
         }])
         ->orderBy('created_at', 'desc')
         ->get();
-        
+
     return view('owner.properties', compact('properties'));
 }
 
@@ -88,8 +88,8 @@ class PropertiesController extends Controller
                 'bedrooms' => 'required|integer',
                 'bathrooms' => 'required|integer',
                 'area' => 'required|numeric',
-                'thumbnail' => 'required|image|max:2048',
-                'photos.*' => 'required|image|max:2048', // refers to each individual file in that array
+                'thumbnail' => 'required|image|max:3072', // Max 3MB
+                'photos.*' => 'required|image|max:3072', // refers to each individual file in that array
                 'photos' => 'required|array|min:4', // refers to the entire array of uploaded files
             ]);
 
