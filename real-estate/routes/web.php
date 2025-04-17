@@ -68,6 +68,9 @@ Route::post('/change-password', [ChangePasswordController::class, 'update'])->na
 Route::middleware(['auth'])->group(function () {
     Route::get('/properties/create', [PropertiesController::class, 'create'])->name('properties.create');
     Route::post('/properties', [PropertiesController::class, 'store'])->name('properties.store');
+    Route::get('/properties/{property}/edit', [PropertiesController::class, 'edit'])->name('properties.edit');
+    Route::put('/properties/{property}', [PropertiesController::class, 'update'])->name('properties.update');
+    Route::delete('/properties/{property}', [PropertiesController::class, 'destroy'])->name('properties.destroy');
 });
 
 Route::get('/properties', [PropertiesController::class, 'index'])->name('properties.index');
