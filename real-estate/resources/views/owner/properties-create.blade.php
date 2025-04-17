@@ -109,33 +109,32 @@
             </div>
 
             <!-- Map -->
-            <div class="mb-8 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
-                <h2 class="text-xl font-semibold text-blue-800 mb-2">Location</h2>
-                <p class="text-sm text-gray-600 mb-2">Click on the map to select property location</p>
-                <div id="map" style="height: 400px;"
-                    class="mb-4 rounded-lg border @error('latitude') border-red-500 @else border-gray-300 @enderror">
-                </div>
+<div class="mb-8 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
+    <h2 class="text-xl font-semibold text-blue-800 mb-2">Location</h2>
+    <p class="text-sm text-gray-600 mb-4">Search for a location or click directly on the map</p>
+    
+    <div id="map" class="mb-4 rounded-lg border @error('latitude') border-red-500 @else border-gray-300 @enderror" style="height: 400px; width: 100%;"></div>
 
-                <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude') }}">
-                <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}">
+    <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude') }}">
+    <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}">
 
-                @error('latitude')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-                @error('longitude')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
+    @error('latitude')
+        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+    @enderror
+    @error('longitude')
+        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+    @enderror
 
-                <div class="mt-4">
-                    <label for="location" class="block text-blue-900 mb-1">Location Name</label>
-                    <input type="text" id="location" name="address" value="{{ old('address') }}"
-                        class="w-full px-4 py-3 border @error('address') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        readonly>
-                    @error('address')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
+    <div class="mt-4">
+        <label for="location" class="block text-blue-900 mb-1">Location Name</label>
+        <input type="text" id="location" name="address" value="{{ old('address') }}"
+            class="w-full px-4 py-3 border @error('address') border-red-500 @else border-gray-300 @enderror rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            readonly>
+        @error('address')
+            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+        @enderror
+    </div>
+</div>
 
             <!-- Photos -->
             <div class="mb-8 bg-blue-50 bg-opacity-30 p-6 rounded-lg">
@@ -285,207 +284,503 @@
 </div>
 </main>
 
+<!-- Add Leaflet CSS and JS in the section or in your layout file -->
+@section('styles')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+    }
+    
+    /* Enhanced geocoder control styles with larger input */
+    .leaflet-control-geocoder {
+        width: 100%;
+        max-width: 550px; /* Increased size */
+        margin-top: 10px !important;
+        z-index: 1000; /* Ensure it's above other elements */
+    }
 
-    <script>
-        // Initialize map
-        var map = L.map('map').setView([1.3733, 32.2903], 7);
+    .leaflet-control-geocoder-form {
+        display: flex;
+        width: 100%;
+    }
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
+    .leaflet-control-geocoder-form input {
+        width: 100%;
+        padding: 14px 20px; /* Larger input area */
+        font-size: 18px;
+        border-radius: 8px;
+        border: 2px solid #3b82f6;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
 
-        let marker;
+    .leaflet-control-geocoder-form input:focus {
+        outline: none;
+        border-color: #1d4ed8;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+    }
 
-        // If we have stored coordinates (from validation error), use them
-        const storedLat = "{{ old('latitude') }}";
-        const storedLng = "{{ old('longitude') }}";
+    .leaflet-control-geocoder-icon {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: #3b82f6;
+        border-radius: 4px;
+        padding: 10px; /* Larger icon */
+    }
+    
+    /* Completely overhauled search results styling */
+    .leaflet-control-geocoder-results {
+        max-height: 300px;
+        overflow-y: auto;
+        background-color: white !important;
+        border-radius: 8px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+        width: 100%;
+        border: 1px solid #e5e7eb;
+        margin-top: 5px;
+        z-index: 1001; /* Above the map */
+        position: relative;
+    }
+    
+    .leaflet-control-geocoder-alternatives {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background-color: white !important;
+        width: 100%;
+    }
+    
+    /* Each suggestion item */
+    .leaflet-control-geocoder-alternatives li {
+        padding: 16px 20px;
+        cursor: pointer;
+        border-bottom: 1px solid #e5e7eb;
+        font-size: 16px;
+        background-color: white !important;
+        color: #1f2937;
+        margin: 0;
+        width: 100%;
+    }
+    
+    /* Force white background on all elements inside list items */
+    .leaflet-control-geocoder-alternatives li * {
+        background-color: white !important; 
+    }
+    
+    .leaflet-control-geocoder-alternatives li:hover {
+        background-color: #eff6ff !important;
+    }
+    
+    .leaflet-control-geocoder-alternatives li:last-child {
+        border-bottom: none;
+    }
+    
+    /* No results message */
+    .leaflet-control-geocoder-no-results {
+        background-color: white !important;
+        padding: 16px 20px;
+        font-size: 16px;
+        color: #ef4444;
+        width: 100%;
+    }
+    
+    /* Special case for the error container */
+    .leaflet-control-geocoder-error {
+        background-color: white !important;
+        padding: 16px 20px;
+        color: #ef4444;
+        width: 100%;
+    }
+    
+    /* Force proper styling for any dynamically added elements */
+    .leaflet-control-geocoder,
+    .leaflet-control-geocoder *,
+    .leaflet-control-geocoder-results,
+    .leaflet-control-geocoder-results *,
+    .leaflet-control-geocoder-alternatives,
+    .leaflet-control-geocoder-alternatives * {
+        background-color: white !important;
+    }
+    
+    /* Only apply blue background on hover for list items */
+    .leaflet-control-geocoder-alternatives li:hover {
+        background-color: #eff6ff !important;
+    }
+</style>
+@endsection
 
-        if (storedLat && storedLng) {
-            marker = L.marker([storedLat, storedLng]).addTo(map);
-            map.setView([storedLat, storedLng], 12);
+@section('scripts')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    // Kampala coordinates
+    const kampalaLat = 0.3476;
+    const kampalaLng = 32.5825;
+    
+    // Initialize map with Kampala as default center
+    var map = L.map('map').setView([kampalaLat, kampalaLng], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    let marker;
+
+    // If we have stored coordinates (from validation error), use them
+    const storedLat = "{{ old('latitude') }}";
+    const storedLng = "{{ old('longitude') }}";
+
+    if (storedLat && storedLng) {
+        marker = L.marker([storedLat, storedLng]).addTo(map);
+        map.setView([storedLat, storedLng], 12);
+    } else {
+        // Default center is now Kampala
+        marker = L.marker([kampalaLat, kampalaLng]).addTo(map);
+        document.getElementById('latitude').value = kampalaLat;
+        document.getElementById('longitude').value = kampalaLng;
+        
+        // Get the address for Kampala
+        reverseGeocode(kampalaLat, kampalaLng);
+    }
+
+    // Force map to recalculate its size after it's fully loaded
+    setTimeout(function() {
+        map.invalidateSize();
+    }, 100);
+
+    // Create a proper search control with enhanced options and add it to the map
+    const searchControl = L.Control.geocoder({
+        defaultMarkGeocode: false,
+        placeholder: 'Search for locations in Uganda...',
+        errorMessage: 'Location not found. Please try another search.',
+        geocoder: L.Control.Geocoder.nominatim({
+            geocodingQueryParams: {
+                countrycodes: 'ug', // Limit to Uganda
+                limit: 5
+            }
+        }),
+        position: 'topright', // Position it at the top right of the map
+        expanded: true, // Start with the control expanded
+        suggestMinLength: 3, // Start suggesting after 3 characters
+        suggestTimeout: 250, // Wait time before suggesting
+    }).addTo(map);
+    
+    // Handle results from the map's geocoder control
+    searchControl.on('markgeocode', function(e) {
+        const latlng = e.geocode.center;
+        
+        if (marker) {
+            marker.setLatLng(latlng);
+        } else {
+            marker = L.marker(latlng).addTo(map);
+        }
+        
+        map.setView(latlng, 15);
+        
+        // Update form values
+        document.getElementById('latitude').value = latlng.lat;
+        document.getElementById('longitude').value = latlng.lng;
+        
+        // Format location name properly but keep "Uganda" in the input field
+        let locationName = e.geocode.name;
+        // Clean up the location name to show "Location, Uganda" on one line
+        if (locationName.includes(',')) {
+            // Get first part (locality) and add Uganda
+            locationName = locationName.split(',')[0].trim() + ", Uganda";
+        } else if (!locationName.endsWith("Uganda")) {
+            locationName = locationName + ", Uganda";
+        }
+        
+        document.getElementById('location').value = locationName;
+    });
+
+    // Map click event to set marker
+    map.on('click', function(e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+
+        if (marker) {
+            marker.setLatLng([lat, lng]);
+        } else {
+            marker = L.marker([lat, lng]).addTo(map);
         }
 
-        map.on('click', function(e) {
-            const lat = e.latlng.lat;
-            const lng = e.latlng.lng;
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
 
-            if (marker) {
-                marker.setLatLng([lat, lng]);
-            } else {
-                marker = L.marker([lat, lng]).addTo(map);
+        reverseGeocode(lat, lng);
+    });
+
+    // Function to do reverse geocoding with improved formatting
+    function reverseGeocode(lat, lng) {
+        // Consider adding a loading indicator here
+        fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`, {
+            headers: {
+                'User-Agent': '{{ config('app.name', 'PropertyFinder') }}/1.0'
             }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const address = data.address;
+            // Get primary location name
+            let locationName = address?.city || address?.town || address?.village || address?.suburb || address?.hamlet || "Unknown location";
+            
+            // Format the location as "Location, Uganda" on a single line
+            document.getElementById('location').value = locationName + ", Uganda";
+        })
+        .catch(error => {
+            console.error('Error with reverse geocoding:', error);
+            document.getElementById('location').value = "Location not found";
+        });
+    }
 
-            document.getElementById('latitude').value = lat;
-            document.getElementById('longitude').value = lng;
-
-            fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`, {
-                    headers: {
-                        'User-Agent': '{{ config('app.name', 'PropertyFinder') }}/1.0'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    const address = data.address;
-                    const locationName = address?.city || address?.town || address?.village || data
-                        .display_name || "Unknown location";
-                    document.getElementById('location').value = locationName;
-                })
-                .catch(error => {
-                    console.error('Error with reverse geocoding:', error);
-                    document.getElementById('location').value = "Location not found";
+    // Set up a mutation observer to force styling and modify search results
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.addedNodes.length) {
+                // Force white background on all search result elements
+                const resultsElements = document.querySelectorAll('.leaflet-control-geocoder-results, .leaflet-control-geocoder-results *, .leaflet-control-geocoder-alternatives li');
+                resultsElements.forEach(el => {
+                    el.style.backgroundColor = 'white';
                 });
-        });
-
-        // Thumbnail upload container click handler
-        document.getElementById('thumbnail-container').addEventListener('click', function() {
-            document.getElementById('thumbnail-upload').click();
-        });
-
-        // Photos upload container click handler
-        document.getElementById('photos-container').addEventListener('click', function() {
-            document.getElementById('photos-upload').click();
-        });
-
-        // Thumbnail preview
-        document.getElementById('thumbnail-upload').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const previewContainer = document.getElementById('thumbnail-preview-container');
-                    const preview = document.getElementById('thumbnail-preview');
-                    const placeholder = document.getElementById('thumbnail-placeholder');
-
-                    preview.src = e.target.result;
-                    previewContainer.classList.remove('hidden');
-                    placeholder.classList.add('hidden');
-                }
-                reader.readAsDataURL(file);
+                
+                // Process list items to hide "Uganda" text
+                const listItems = document.querySelectorAll('.leaflet-control-geocoder-alternatives li');
+                listItems.forEach(li => {
+                    // Store original text for data retrieval later
+                    const originalText = li.textContent;
+                    li.setAttribute('data-original-text', originalText);
+                    
+                    // Replace display text to hide "Uganda"
+                    let displayText = originalText;
+                    if (displayText.includes(',')) {
+                        // Get first part before any comma
+                        displayText = displayText.split(',')[0].trim();
+                    } else if (displayText.toLowerCase().includes('uganda')) {
+                        // Remove "Uganda" if it's at the end
+                        displayText = displayText.replace(/,?\s*uganda$/i, '');
+                    }
+                    
+                    // Replace the content while preserving any HTML
+                    if (originalText !== displayText) {
+                        li.textContent = displayText;
+                    }
+                    
+                    // Apply hover styles
+                    li.addEventListener('mouseover', () => {
+                        li.style.backgroundColor = '#eff6ff';
+                    });
+                    li.addEventListener('mouseout', () => {
+                        li.style.backgroundColor = 'white';
+                    });
+                });
             }
         });
+    });
 
-        // Thumbnail delete button
-        document.getElementById('thumbnail-delete').addEventListener('click', function(e) {
-            e.stopPropagation(); // Prevent container click
-            const previewContainer = document.getElementById('thumbnail-preview-container');
-            const placeholder = document.getElementById('thumbnail-placeholder');
-            const fileInput = document.getElementById('thumbnail-upload');
+    // Start observing the map container for added nodes
+    observer.observe(document.getElementById('map'), { 
+        childList: true,
+        subtree: true
+    });
 
-            previewContainer.classList.add('hidden');
-            placeholder.classList.remove('hidden');
-            fileInput.value = ''; // Clear the file input
+    // Apply additional CSS to ensure white background on search results
+    // and process list items to hide "Uganda" text
+    setTimeout(() => {
+        // Force white background on results container and all children
+        const resultsElements = document.querySelectorAll('.leaflet-control-geocoder-results, .leaflet-control-geocoder-results *');
+        resultsElements.forEach(el => {
+            el.style.backgroundColor = 'white';
         });
+        
+        // Process list items to hide "Uganda" text
+        const listItems = document.querySelectorAll('.leaflet-control-geocoder-alternatives li');
+        listItems.forEach(li => {
+            // Store original text for data retrieval later
+            const originalText = li.textContent;
+            li.setAttribute('data-original-text', originalText);
+            
+            // Replace display text to hide "Uganda"
+            let displayText = originalText;
+            if (displayText.includes(',')) {
+                // Get first part before any comma
+                displayText = displayText.split(',')[0].trim();
+            } else if (displayText.toLowerCase().includes('uganda')) {
+                // Remove "Uganda" if it's at the end
+                displayText = displayText.replace(/,?\s*uganda$/i, '');
+            }
+            
+            // Replace the content
+            if (originalText !== displayText) {
+                li.textContent = displayText;
+            }
+        });
+    }, 1000);
 
-        // Multiple photos preview
-        document.getElementById('photos-upload').addEventListener('change', function(event) {
-            const files = event.target.files;
-            const previewContainer = document.getElementById('photos-preview');
-            const placeholder = document.getElementById('photos-placeholder');
+    // Rest of your code remains the same...
+    // Thumbnail upload container click handler
+    document.getElementById('thumbnail-container').addEventListener('click', function() {
+        document.getElementById('thumbnail-upload').click();
+    });
 
-            previewContainer.innerHTML = ''; // Clear existing previews
+    // Photos upload container click handler
+    document.getElementById('photos-container').addEventListener('click', function() {
+        document.getElementById('photos-upload').click();
+    });
 
-            if (files.length > 0) {
+    // Thumbnail preview
+    document.getElementById('thumbnail-upload').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewContainer = document.getElementById('thumbnail-preview-container');
+                const preview = document.getElementById('thumbnail-preview');
+                const placeholder = document.getElementById('thumbnail-placeholder');
+
+                preview.src = e.target.result;
+                previewContainer.classList.remove('hidden');
                 placeholder.classList.add('hidden');
+            }
+            reader.readAsDataURL(file);
+        }
+    });
 
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const imgContainer = document.createElement('div');
-                            imgContainer.className = 'relative';
+    // Thumbnail delete button
+    document.getElementById('thumbnail-delete').addEventListener('click', function(e) {
+        e.stopPropagation(); // Prevent container click
+        const previewContainer = document.getElementById('thumbnail-preview-container');
+        const placeholder = document.getElementById('thumbnail-placeholder');
+        const fileInput = document.getElementById('thumbnail-upload');
 
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.className = 'w-full h-24 object-cover rounded';
-                            imgContainer.appendChild(img);
+        previewContainer.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        fileInput.value = ''; // Clear the file input
+    });
 
-                            const deleteBtn = document.createElement('button');
-                            deleteBtn.type = 'button';
-                            deleteBtn.className =
-                                'absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 shadow-sm hover:bg-red-600';
-                            deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
-                            deleteBtn.dataset.index = i;
-                            deleteBtn.addEventListener('click', function(e) {
-                                e.stopPropagation();
-                                imgContainer.remove();
+    // Multiple photos preview
+    document.getElementById('photos-upload').addEventListener('change', function(event) {
+        const files = event.target.files;
+        const previewContainer = document.getElementById('photos-preview');
+        const placeholder = document.getElementById('photos-placeholder');
 
-                                // Check if there are any images left
-                                if (document.getElementById('photos-preview').children.length === 0) {
-                                    document.getElementById('photos-placeholder').classList.remove(
-                                        'hidden');
-                                    document.getElementById('photos-upload').value = '';
-                                }
-                            });
+        previewContainer.innerHTML = ''; // Clear existing previews
 
-                            imgContainer.appendChild(deleteBtn);
-                            previewContainer.appendChild(imgContainer);
-                        }
-                        reader.readAsDataURL(file);
+        if (files.length > 0) {
+            placeholder.classList.add('hidden');
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.className = 'relative';
+
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.className = 'w-full h-24 object-cover rounded';
+                        imgContainer.appendChild(img);
+
+                        const deleteBtn = document.createElement('button');
+                        deleteBtn.type = 'button';
+                        deleteBtn.className =
+                            'absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 shadow-sm hover:bg-red-600';
+                        deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+                        deleteBtn.dataset.index = i;
+                        deleteBtn.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            imgContainer.remove();
+
+                            // Check if there are any images left
+                            if (document.getElementById('photos-preview').children.length === 0) {
+                                document.getElementById('photos-placeholder').classList.remove(
+                                    'hidden');
+                                document.getElementById('photos-upload').value = '';
+                            }
+                        });
+
+                        imgContainer.appendChild(deleteBtn);
+                        previewContainer.appendChild(imgContainer);
                     }
+                    reader.readAsDataURL(file);
                 }
-            } else {
-                placeholder.classList.remove('hidden');
             }
+        } else {
+            placeholder.classList.remove('hidden');
+        }
+    });
+
+    // Clear form functionality
+    document.getElementById('clear-form').addEventListener('click', function() {
+        // Show the confirmation modal
+        document.getElementById('clear-modal').classList.remove('hidden');
+    });
+
+    // Cancel clearing form
+    document.getElementById('cancel-clear').addEventListener('click', function() {
+        document.getElementById('clear-modal').classList.add('hidden');
+    });
+
+    // Confirm clearing form
+    document.getElementById('confirm-clear').addEventListener('click', function() {
+        // Reset the form
+        document.getElementById('property-form').reset();
+
+        // Reset the map to Kampala
+        if (marker) {
+            marker.setLatLng([kampalaLat, kampalaLng]);
+            map.setView([kampalaLat, kampalaLng], 12);
+        } else {
+            marker = L.marker([kampalaLat, kampalaLng]).addTo(map);
+            map.setView([kampalaLat, kampalaLng], 12);
+        }
+
+        // Reset the location fields
+        document.getElementById('latitude').value = kampalaLat;
+        document.getElementById('longitude').value = kampalaLng;
+        reverseGeocode(kampalaLat, kampalaLng);
+
+        // Reset the thumbnail
+        const thumbnailPreviewContainer = document.getElementById('thumbnail-preview-container');
+        const thumbnailPlaceholder = document.getElementById('thumbnail-placeholder');
+        thumbnailPreviewContainer.classList.add('hidden');
+        thumbnailPlaceholder.classList.remove('hidden');
+
+        // Reset the photos
+        const photosPreview = document.getElementById('photos-preview');
+        const photosPlaceholder = document.getElementById('photos-placeholder');
+        photosPreview.innerHTML = '';
+        photosPlaceholder.classList.remove('hidden');
+
+        // Hide the modal
+        document.getElementById('clear-modal').classList.add('hidden');
+    });
+
+    // Regular submission (sets status to pending)
+    document.getElementById('submit-form').addEventListener('click', function() {
+        // Ensure the status is set to pending
+        document.getElementById('property-status').value = 'pending';
+    });
+
+    // Auto-scroll to errors if they exist
+    if (document.querySelector('.text-red-500')) {
+        document.querySelector('.text-red-500').scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
         });
-
-        // Clear form functionality
-        document.getElementById('clear-form').addEventListener('click', function() {
-            // Show the confirmation modal
-            document.getElementById('clear-modal').classList.remove('hidden');
-        });
-
-        // Cancel clearing form
-        document.getElementById('cancel-clear').addEventListener('click', function() {
-            document.getElementById('clear-modal').classList.add('hidden');
-        });
-
-        // Confirm clearing form
-        document.getElementById('confirm-clear').addEventListener('click', function() {
-            // Reset the form
-            document.getElementById('property-form').reset();
-
-            // Clear the map marker if it exists
-            if (marker) {
-                map.removeLayer(marker);
-                marker = null;
-            }
-
-            // Reset the location fields
-            document.getElementById('latitude').value = '';
-            document.getElementById('longitude').value = '';
-            document.getElementById('location').value = '';
-
-            // Reset the thumbnail
-            const thumbnailPreviewContainer = document.getElementById('thumbnail-preview-container');
-            const thumbnailPlaceholder = document.getElementById('thumbnail-placeholder');
-            thumbnailPreviewContainer.classList.add('hidden');
-            thumbnailPlaceholder.classList.remove('hidden');
-
-            // Reset the photos
-            const photosPreview = document.getElementById('photos-preview');
-            const photosPlaceholder = document.getElementById('photos-placeholder');
-            photosPreview.innerHTML = '';
-            photosPlaceholder.classList.remove('hidden');
-
-            // Hide the modal
-            document.getElementById('clear-modal').classList.add('hidden');
-        });
-
-        // Regular submission (sets status to pending)
-        document.getElementById('submit-form').addEventListener('click', function() {
-            // Ensure the status is set to pending
-            document.getElementById('property-status').value = 'pending';
-        });
-
-        // Auto-scroll to errors if they exist
-        document.addEventListener('DOMContentLoaded', function() {
-            if (document.querySelector('.text-red-500')) {
-                document.querySelector('.text-red-500').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                });
-            }
-        });
-    </script>
+    }
+});
+</script>
+@endsection
 @endsection
