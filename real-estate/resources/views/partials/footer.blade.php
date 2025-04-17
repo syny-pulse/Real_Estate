@@ -4,6 +4,8 @@
             <div>
                 <h3 class="text-xl font-bold mb-4">PropertyFinder</h3>
                 <p class="text-gray-400">Find your perfect property with ease. We provide the best properties across the country.</p>
+                <p><a href="{{route('legal.terms')}}" class="link">Terms</a> </p> 
+                <p><a href="{{route('privacy.policy')}}" class="link">Privacy Policy</a></p>
             </div>
             <div>
                 <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
