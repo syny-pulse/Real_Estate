@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
-use App\Models\User;
-use App\Notifications\ForgotPassword;
+use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
@@ -22,14 +21,17 @@ class ResetPasswordController extends Controller
 
     public function send(Request $request)
     {
-        $email = $request->validate([
-            'email' => ['required']
+        $validated = $request->validate([
+            'email' => ['required', 'email','exists:users']
         ]);
-        $user = User::where('email', $email)->first();
 
-        if ($user) {
-            $user->notify(new ForgotPassword($user->id));
-            return back()->with('success', 'An email was send to your email address');
-        }
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
+
     }
 }
