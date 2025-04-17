@@ -38,62 +38,47 @@
     <div class="container mx-auto px-4">
         <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Featured Properties</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Property Card 1 -->
-            <div class="property-card bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="h-48 bg-gray-200">
-                    <img src="\uploads\properties\modern-studio-apartment-design-with-bedroom-living-space.jpg" alt="Property" class="w-full h-full object-cover">
-                </div>
-                <div class="p-4">
-                    <span class="text-sm text-blue-800 font-medium">250,000/Month</span>
-                    <h3 class="text-xl font-semibold text-gray-800 mt-1">Modern Apartment</h3>
-                    <p class="text-gray-600 mt-1">NKira, Bulindo</p>
-                    <div class="flex items-center mt-2 text-gray-700 text-sm">
-                        <span class="mr-4">3 Beds</span>
-                        <span class="mr-4">2 Baths</span>
-                        <span>1,200 sqft</span>
+            @forelse ($featuredProperties as $property)
+                <!-- Property Card -->
+                <div class="property-card bg-white rounded-lg shadow-md overflow-hidden">
+                    <div class="h-48 bg-gray-200">
+                        @if($property->primary_image)
+                            <img src="{{ $property->primary_image->image_path }}" alt="{{ $property->title }}" class="w-full h-full object-cover">
+                        @else
+                            <img src="\uploads\properties\default-property.jpg" alt="{{ $property->title }}" class="w-full h-full object-cover">
+                        @endif
                     </div>
-                    <a href="/properties/1" class="block mt-4 text-center py-2 border border-blue-800 text-blue-800 rounded hover:bg-blue-800 hover:text-white transition">View Details</a>
-                </div>
-            </div>
-
-            <!-- Property Card 2 -->
-            <div class="property-card bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="h-48 bg-gray-200">
-                    <img src="\uploads\properties\house-isolated-field.jpg" alt="Property" class="w-full h-full object-cover">
-                </div>
-                <div class="p-4">
-                    <span class="text-sm text-blue-800 font-medium">450,000/Month</span>
-                    <h3 class="text-xl font-semibold text-gray-800 mt-1">Family House</h3>
-                    <p class="text-gray-600 mt-1">Ntinda</p>
-                    <div class="flex items-center mt-2 text-gray-700 text-sm">
-                        <span class="mr-4">4 Beds</span>
-                        <span class="mr-4">3 Baths</span>
-                        <span>2,400 sqft</span>
+                    <div class="p-4">
+                        <span class="text-sm text-blue-800 font-medium">
+                            {{ number_format($property->price) }}
+                            @if(in_array($property->property_type, ['apartment', 'house']))
+                                /Month
+                            @endif
+                        </span>
+                        <h3 class="text-xl font-semibold text-gray-800 mt-1">{{ $property->title }}</h3>
+                        <p class="text-gray-600 mt-1">{{ $property->city }}, {{ $property->address }}</p>
+                        <div class="flex items-center mt-2 text-gray-700 text-sm">
+                            @if($property->bedrooms)
+                                <span class="mr-4">{{ $property->bedrooms }} Beds</span>
+                            @endif
+                            @if($property->bathrooms)
+                                <span class="mr-4">{{ $property->bathrooms }} Baths</span>
+                            @endif
+                            @if($property->area)
+                                <span>{{ $property->area }} sqft</span>
+                            @endif
+                        </div>
+                        <a href="{{ route('properties.show', $property->slug) }}" class="block mt-4 text-center py-2 border border-blue-800 text-blue-800 rounded hover:bg-blue-800 hover:text-white transition">View Details</a>
                     </div>
-                    <a href="/properties/2" class="block mt-4 text-center py-2 border border-blue-800 text-blue-800 rounded hover:bg-blue-800 hover:text-white transition">View Details</a>
                 </div>
-            </div>
-
-            <!-- Property Card 3 -->
-            <div class="property-card bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="h-48 bg-gray-200">
-                    <img src="\uploads\properties\luxury-bedroom-suite-resort-high-rise-hotel-with-working-table.jpg" alt="Property" class="w-full h-full object-cover">
+            @empty
+                <div class="col-span-3 text-center py-8">
+                    <p class="text-gray-600">No featured properties available at the moment.</p>
                 </div>
-                <div class="p-4">
-                    <span class="text-sm text-blue-800 font-medium">180,000,000</span>
-                    <h3 class="text-xl font-semibold text-gray-800 mt-1">Cozy Studio Apartment</h3>
-                    <p class="text-gray-600 mt-1">Kololo, Lower Terrace</p>
-                    <div class="flex items-center mt-2 text-gray-700 text-sm">
-                        <span class="mr-4">1 Bed</span>
-                        <span class="mr-4">1 Bath</span>
-                        <span>650 sqft</span>
-                    </div>
-                    <a href="/properties/3" class="block mt-4 text-center py-2 border border-blue-800 text-blue-800 rounded hover:bg-blue-800 hover:text-white transition">View Details</a>
-                </div>
-            </div>
+            @endforelse
         </div>
         <div class="text-center mt-10">
-            <a href="/properties" class="btn-primary">View All Properties</a>
+            <a href="{{ route('properties.index') }}" class="btn-primary">View All Properties</a>
         </div>
     </div>
 </section>
