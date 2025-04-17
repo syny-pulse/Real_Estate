@@ -37,6 +37,17 @@ class PropertiesController extends Controller
     ];
     return view('properties.show', compact('property', 'amenities', 'location'));
 }
+public function myProperties()
+{
+    $properties = Property::where('user_id', auth()->id())
+        ->with(['images' => function($query) {
+            $query->where('is_primary', true)->first();
+        }])
+        ->orderBy('created_at', 'desc')
+        ->get();
+        
+    return view('owner.properties', compact('properties'));
+}
 
     public function create() {
         return view('owner.properties-create');
