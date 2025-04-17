@@ -285,6 +285,7 @@
 </div>
 </main>
 
+
     <script>
         // Initialize map
         var map = L.map('map').setView([1.3733, 32.2903], 7);

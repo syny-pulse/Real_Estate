@@ -4,6 +4,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PropertiesController;
+use App\Http\Controllers\WishlistController;
+
+Route::get('/my-wishlist', [PropertiesController::class, 'myWishedProperties'])->name('my.wishlist');
+use App\Http\Controllers\BookingController;
+
+Route::get('/my-booked-properties', [PropertiesController::class, 'myBookedProperties'])->name('my.booked.properties');
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\owner\PropertyController;
 use App\Http\Controllers\CustomerController;
@@ -87,5 +93,5 @@ Route::get('/privacy-policy', [PropertyController::class, 'privacy'])->name('pri
 
 
 
-//  Include admin and owner route files
+Route::get('/properties/{property}/edit', [PropertiesController::class, 'edit'])->name('properties.edit'); // Add this line
 require __DIR__.'/admin.php';

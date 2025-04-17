@@ -8,6 +8,14 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
+    public function myWishlist()
+    {
+        $wishlistItems = Wishlist::with('property')
+            ->where('customer_id', Auth::id())
+            ->get();
+
+        return $wishlistItems;
+    }
     public function store(Request $request)
     {
         $request->validate([
