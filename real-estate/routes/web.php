@@ -87,6 +87,11 @@ Route::get('/properties/{property}', [PropertiesController::class, 'show'])->nam
 Route::get('/property-owner', [PropertyController::class, 'benefits'])->name('property.owner.benefits');
 Route::get('/property-owner-dashboard', [PropertyController::class, 'dashboard'])->name('property.owner.dashboard');
 
+//Booking routes
+Route::get('/active-bookings', [App\Http\Controllers\BookingController::class, 'activeBookings'])
+    ->name('bookings.active')
+    ->middleware('auth');
+    
 // legal-terms
 Route::get('/legal-terms', [PropertyController::class, 'terms'])->name('legal.terms');
 
