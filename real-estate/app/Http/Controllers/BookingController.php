@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Auth;
 
 class BookingController extends Controller
 {
+    public function myBookings()
+    {
+        $bookings = Booking::with('property')
+            ->where('customer_id', Auth::id())
+            ->get();
+
+        return $bookings;
+    }
     public function store(Request $request)
     {
         $request->validate([

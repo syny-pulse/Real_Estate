@@ -12,7 +12,7 @@
         <nav>
             <ul>
                 <li>
-                    <a href="#properties"
+                    <a href="/property-owner-dashboard"
                         class="flex items-center px-4 py-3 text-gray-700 transition border-l-4 border-transparent"
                         style="transition: all 0.3s ease; hover:background-color: #E0F2FE; hover:color: #1E40AF; hover:border-left-color: #1E40AF;">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" style="color: #3B82F6;" fill="none"

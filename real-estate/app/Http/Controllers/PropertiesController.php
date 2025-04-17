@@ -12,6 +12,20 @@ use Illuminate\Http\Request;
 
 class PropertiesController extends Controller
 {
+    public function myWishedProperties()
+    {
+        $wishlistController = new WishlistController();
+        $wishlistItems = $wishlistController->myWishlist();
+
+        return view('owner.wishlist', compact('wishlistItems'));
+    }
+    public function myBookedProperties()
+    {
+        $bookingController = new BookingController();
+        $bookings = $bookingController->myBookings();
+
+        return view('owner.booked-properties', compact('bookings'));
+    }
     public function index()
     {
         $properties = Property::with(['images' => function($query) {
@@ -37,7 +51,13 @@ class PropertiesController extends Controller
     ];
     return view('properties.show', compact('property', 'amenities', 'location'));
 }
-public function myProperties()
+    public function edit(Property $property)
+    {
+        $property->load('images'); // Load images if necessary
+        return view('owner.properties-edit', compact('property'));
+    }
+
+    public function myProperties()
 {
     $properties = Property::where('user_id', auth()->id())
         ->with(['images' => function($query) {
