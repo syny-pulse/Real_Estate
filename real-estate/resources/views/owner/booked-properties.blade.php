@@ -11,10 +11,12 @@
             @foreach($bookings as $booking)
                 <div class="property-card bg-white rounded-lg shadow-md overflow-hidden">
                     <div class="h-48 bg-gray-200">
-                        @if($booking->property->images->isNotEmpty())
-                            <img src="{{ asset('storage/' . $booking->property->images->first()->image_path) }}" alt="{{ $booking->property->title }}" class="w-full h-full object-cover">
+                        @if($booking->property->primary_image)
+                            <img src="{{ $booking->property->primary_image->image_path }}" alt="{{ $booking->property->title }}" class="w-full h-full object-cover">
+                        @elseif($booking->property->images->isNotEmpty())
+                            <img src="{{ $booking->property->images->first()->image_path }}" alt="{{ $booking->property->title }}" class="w-full h-full object-cover">
                         @else
-                            <img src="/path/to/default-image.jpg" alt="Default Image" class="w-full h-full object-cover">
+                            <img src="\uploads\properties\default-property.jpg" alt="{{ $booking->property->title }}" class="w-full h-full object-cover">
                         @endif
                     </div>
                     <div class="p-4">
