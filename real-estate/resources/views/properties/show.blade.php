@@ -18,9 +18,13 @@
                 <div class="flex flex-col md:flex-row gap-4 h-96">
                     <!-- Primary Image (Left Half) -->
                     <div class="w-full md:w-1/2 h-full rounded-lg overflow-hidden shadow-md">
-                        <img src="{{ asset('storage/' . $primaryImage->image_path) }}" 
-                             alt="Property image" 
-                             class="w-full h-full object-cover">
+                    @if($property->primary_image)
+                        <img src="{{ $property->primary_image->image_path }}" alt="{{ $property->title }}" class="w-full h-full object-cover">
+                    @elseif($property->images->isNotEmpty())
+                        <img src="{{ $property->images->first()->image_path }}" alt="{{ $property->title }}" class="w-full h-full object-cover">
+                    @else
+                        <img src="\uploads\properties\default-property.jpg" alt="{{ $property->title }}" class="w-full h-full object-cover">
+                    @endif
                     </div>
                     
                     <!-- Secondary Images (Right Half) -->
@@ -28,9 +32,11 @@
                         <div class="grid grid-cols-2 gap-4 h-full">
                             @foreach($secondaryImages as $image)
                             <div class="rounded-lg overflow-hidden shadow-md h-full">
-                                <img src="{{ asset('storage/' . $image->image_path) }}" 
-                                     alt="Property image" 
-                                     class="w-full h-full object-cover">
+                            @if($property->images->isNotEmpty())
+                                <img src="{{ $property->images->first()->image_path }}" alt="{{ $property->title }}" class="w-full h-full object-cover">
+                            @else
+                                <img src="\uploads\properties\default-property.jpg" alt="{{ $property->title }}" class="w-full h-full object-cover">
+                            @endif
                             </div>
                             @endforeach
                             @if($secondaryImages->count() < 3)
