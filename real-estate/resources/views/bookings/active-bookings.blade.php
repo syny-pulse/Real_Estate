@@ -1,7 +1,13 @@
-@extends('layouts.app')
+@extends('layouts.owner')
 
 @section('content')
-<div class="container mx-auto px-4 py-8">
+<main class="flex flex-col lg:flex-row min-h-screen bg-gray-50">
+    <!-- Include the sidebar partial -->
+    @include('owner.partials.sidebar')
+
+    <!-- Main Content Area -->
+    <div class="flex-1 md:ml-64">
+    <div class="max-w-5xl mx-auto p-6 bg-white shadow-md rounded-lg my-8">
     @if(session('success'))
     <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
         <p>{{ session('success') }}</p>

@@ -50,7 +50,7 @@ class LoginController extends Controller
 
         switch($user->role){
             case 'admin':
-            return '';
+            return 'admin.dashboard';
 
             case 'customer':
             return '';

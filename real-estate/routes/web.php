@@ -98,6 +98,10 @@ Route::get('/legal-terms', [PropertyController::class, 'terms'])->name('legal.te
 // privacy policy
 Route::get('/privacy-policy', [PropertyController::class, 'privacy'])->name('privacy.policy');
 
+// Admin routes
+Route::get('/admin/dashboard', [App\Http\Controllers\AdminController::class, 'dashboard'])
+    ->name('admin.dashboard')
+    ->middleware(['auth', 'admin']); 
 
 
 

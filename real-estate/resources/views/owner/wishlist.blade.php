@@ -12,11 +12,11 @@
                 <div class="property-card bg-white rounded-lg shadow-md overflow-hidden">
                     <div class="h-48 bg-gray-200">
                         @if($wishlistItem->property->primary_image)
-                            <img src="{{ $wishlistItem->property->primary_image->image_path }}" alt="{{ $wishlistItem->property->title }}" class="w-full h-full object-cover">
+                            <img src="{{ asset('storage/' . $wishlistItem->property->primary_image->image_path) }}" alt="{{ $wishlistItem->property->title }}" class="w-full h-full object-cover">
                         @elseif($wishlistItem->property->images->isNotEmpty())
-                            <img src="{{ $wishlistItem->property->images->first()->image_path }}" alt="{{ $wishlistItem->property->title }}" class="w-full h-full object-cover">
+                            <img src="{{ asset('storage/' . $wishlistItem->property->images->first()->image_path) }}" alt="{{ $wishlistItem->property->title }}" class="w-full h-full object-cover">
                         @else
-                            <img src="\uploads\properties\default-property.jpg" alt="{{ $wishlistItem->property->title }}" class="w-full h-full object-cover">
+                            <img src="{{ asset('uploads/properties/default-property.jpg') }}" alt="{{ $wishlistItem->property->title }}" class="w-full h-full object-cover">
                         @endif
                     </div>
                     <div class="p-4">
