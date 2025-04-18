@@ -12,10 +12,10 @@
                         <div class="property-card bg-white rounded-lg shadow-md overflow-hidden">
                             <div class="h-48 bg-gray-200">
                                 @if ($booking->property->primary_image)
-                                    <img src="{{ 'storage/' . $booking->property->primary_image->image_path }}"
+                                    <img src="{{ asset('storage/' . $booking->property->primary_image->image_path) }}"
                                         alt="{{ $booking->property->title }}" class="w-full h-full object-cover">
                                 @elseif($booking->property->images->isNotEmpty())
-                                    <img src="{{ 'storage/' . $booking->property->images->first()->image_path }}"
+                                    <img src="{{ asset('storage/' . $booking->property->images->first()->image_path) }}"
                                         alt="{{ $booking->property->title }}" class="w-full h-full object-cover">
                                 @else
                                     <img src="\uploads\properties\default-property.jpg"
