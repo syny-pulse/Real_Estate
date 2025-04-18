@@ -20,37 +20,37 @@ class ProfileController extends Controller
             'phone' => 'nullable|string|max:20',
         ]);
 
-        auth()->user()->update($request->only(['name', 'email', 'phone']));
+        //auth()->user()->update($request->only(['name', 'email', 'phone']));
 
         return redirect()->back()->with('success', 'Profile updated successfully');
     }
 
     public function updateImage(Request $request)
-    {
-        $request->validate([
-            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $request->validate([
+        'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        if ($request->hasFile('profile_image')) {
-            // Delete old image if exists
-            if (auth()->user()->profile_image) {
-                $oldPath = str_replace('/storage', 'public', auth()->user()->profile_image);
-                if (Storage::exists($oldPath)) {
-                    Storage::delete($oldPath);
-                }
-            }
+    $user = auth()->user();
 
-            // Store new image
-            $path = $request->file('profile_image')->store('public/profile-images');
-            $url = Storage::url($path);
-
-            auth()->user()->update([
-                'profile_image' => $url,
-            ]);
-
-            return redirect()->back()->with('success', 'Profile image updated successfully');
+    if ($request->hasFile('profile_image')) {
+        // Delete old image
+        if ($user->profile_image) {
+            Storage::disk('public')->delete($user->profile_image);
         }
 
-        return redirect()->back()->with('error', 'Failed to upload image');
+        // Store new image and get its path (e.g., profile-images/xyz.jpg)
+        $path = $request->file('profile_image')->store('profile-images', 'public');
+
+        // Store the path only (not the full URL)
+        $user->update([
+            'profile_image' => $path,
+        ]);
+
+        return redirect()->back()->with('status', 'Profile image updated successfully.');
     }
+
+    return redirect()->back()->with('error', 'Failed to upload image.');
+}
+
 }

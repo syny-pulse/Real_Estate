@@ -7,6 +7,16 @@
 
         <!-- Main Content Area -->
         <div class="flex-1 md:ml-64">
+
+            @if (session('status'))
+                <div id="successMessage"
+                    class="success-container bg-green-100 border border-green-400 text-green-800 px-4 py-3 rounded relative mb-6 flex justify-between items-center">
+                    <span>{{ session('status') }}</span>
+                    <button onclick="document.getElementById('successMessage').style.display='none'"
+                        class="text-green-800 hover:text-green-900 text-xl font-bold ml-4">&times;</button>
+                </div>
+            @endif
+
             <div class="container mx-auto p-4 lg:p-6 max-w-7xl">
                 <!-- My Properties Section -->
                 <div id="properties" class="bg-white rounded-lg shadow-md p-4 lg:p-6 mb-8">
@@ -70,7 +80,7 @@
                                         class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden transition hover:shadow-md">
                                         <div class="relative h-48">
                                             @if ($property->primary_image)
-                                                <img src="{{ asset($property->primary_image->image_path) }}"
+                                                <img src="{{ asset('storage/' . $property->primary_image->image_path) }}"
                                                     alt="{{ $property->title }}" class="w-full h-full object-cover">
                                             @else
                                                 <div class="bg-gray-100 w-full h-full flex items-center justify-center">
@@ -228,7 +238,8 @@
                                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                                         <h3 class="text-lg font-medium text-gray-900 mb-2">
                                             {{ $property->title }}</h3>
-                                        <p class="text-gray-600 mb-2">{{ $property->address ?? 'No address available' }}
+                                        <p class="text-gray-600 mb-2">
+                                            {{ $property->address ?? 'No address available' }}
                                         </p>
                                         <div class="flex items-center text-sm text-gray-500">
                                             <span
@@ -246,7 +257,8 @@
                                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                         <h3 class="text-lg font-medium text-gray-700 mb-2">No approved properties</h3>
-                                        <p class="text-gray-500 mb-6">You don't have any properties that have been approved
+                                        <p class="text-gray-500 mb-6">You don't have any properties that have been
+                                            approved
                                             yet.</p>
                                     </div>
                                 @endforelse
@@ -281,7 +293,8 @@
                                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                                         <h3 class="text-lg font-medium text-gray-900 mb-2">
                                             {{ $property->title }}</h3>
-                                        <p class="text-gray-600 mb-2">{{ $property->address ?? 'No address available' }}
+                                        <p class="text-gray-600 mb-2">
+                                            {{ $property->address ?? 'No address available' }}
                                         </p>
                                         <div class="flex items-center text-sm text-gray-500">
                                             <span
@@ -299,7 +312,8 @@
                                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                         <h3 class="text-lg font-medium text-gray-700 mb-2">No pending properties</h3>
-                                        <p class="text-gray-500 mb-6">You don't have any properties awaiting approval.</p>
+                                        <p class="text-gray-500 mb-6">You don't have any properties awaiting approval.
+                                        </p>
                                     </div>
                                 @endforelse
                             </div>
@@ -333,7 +347,8 @@
                                     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                                         <h3 class="text-lg font-medium text-gray-900 mb-2">
                                             {{ $property->title }}</h3>
-                                        <p class="text-gray-600 mb-2">{{ $property->address ?? 'No address available' }}
+                                        <p class="text-gray-600 mb-2">
+                                            {{ $property->address ?? 'No address available' }}
                                         </p>
                                         <div class="flex items-center text-sm text-gray-500">
                                             <span
@@ -414,7 +429,8 @@
                                     </div>
                                     <div class="flex-1">
                                         <div class="flex justify-between">
-                                            <h4 class="text-sm font-semibold text-gray-800">{{ $activity->title }}</h4>
+                                            <h4 class="text-sm font-semibold text-gray-800">{{ $activity->title }}
+                                            </h4>
                                             <span
                                                 class="text-xs text-gray-500">{{ $activity->created_at->diffForHumans() }}</span>
                                         </div>
@@ -592,6 +608,11 @@
             function closeDeleteModal() {
                 document.getElementById('deletePropertyModal').classList.add('hidden');
             }
+
+            setTimeout(() => {
+                const msg = document.getElementById('successMessage');
+                if (msg) msg.style.display = 'none';
+            }, 3000); // 3 seconds
         </script>
     </main>
 @endsection

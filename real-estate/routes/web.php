@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile');
-    Route::post('/profile/update-image', [ProfileController::class, 'updateImage'])->name('profile.update-image');
+    Route::put('/profile/update-image', [ProfileController::class, 'updateImage'])->name('profile.update-image');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
 
     // Customer routes
@@ -91,12 +91,20 @@ Route::get('/property-owner-dashboard', [PropertyController::class, 'dashboard']
 Route::get('/active-bookings', [App\Http\Controllers\BookingController::class, 'activeBookings'])
     ->name('bookings.active')
     ->middleware('auth');
-    
+
 // legal-terms
 Route::get('/legal-terms', [PropertyController::class, 'terms'])->name('legal.terms');
 
 // privacy policy
 Route::get('/privacy-policy', [PropertyController::class, 'privacy'])->name('privacy.policy');
+
+// Owner Message Routes
+
+    Route::get('/messages', [App\Http\Controllers\Owner\MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/{user}', [App\Http\Controllers\Owner\MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages', [App\Http\Controllers\Owner\MessageController::class, 'store'])->name('messages.store');
+    Route::post('/messages/reply/{user}', [App\Http\Controllers\Owner\MessageController::class, 'reply'])->name('messages.reply');
+
 
 
 
